@@ -1,0 +1,86 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 HelveticaNeue;\f2\fnil\fcharset0 HelveticaNeue-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red53\green53\blue53;\red29\green38\blue42;}
+{\*\expandedcolortbl;;\cssrgb\c27059\c27059\c27059;\cssrgb\c14902\c19608\c21961;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 1.- Crear una base de datos llamada call_ist\
+CREATE DATABASE call_list;\
+\
+2.- En la base de datos reci\'e9n creada, crear tabla users con los campos id (clave primaria), first_name, email\
+\
+CREATE TABLE users(id serial PRIMARY KEY, fist_name varchar, email varchar);\
+\
+3.- Ingresar un usuario, llamado Carlos (el resto de los datos se deben inventar)\
+\
+INSERT INTO users (fist_name, email) VALUES(\'91Carlos\'92, \'91carlos@gmail.com\'92);\
+\
+4.- Ingresar un usuario, llamado Laura (el resto de los datos se deben inventar)\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 INSERT INTO users (fist_name, email) VALUES(\'91Laura\'92, \'91laura@gmail.com\'92);\
+\
+5.- 
+\f1 \cf2 Crear una tabla llamada\'a0
+\f2\b calls
+\f1\b0 \'a0con los campos id (clave primaria), phone, date, user_id (foreign key relacionado a users).\
+\
+
+\f0 \cf0 CREATE TABLE calls(id SERIAL PRIMARY KEY, phone INTEGER, date VARCHAR,  user_id INTEGER REFERENCES users(id));\
+\
+\
+6.- Agregar a la tabla users el campo last_name\
+ALTER TABLE users ADD COLUMN last_name VARCHAR;\
+\
+7.- Ingresar el apellido del usuario Carlos\
+UPDATE users SET last_name = \'91Perez\'92 WHERE fist_name = \'91Carlos\'92;\
+\
+8.- Ingresar el apellido del usuario Laura\
+UPDATE users SET last_name = \'91Gonzalez\'92 WHERE fist_name = \'91Laura\'92;\
+\
+9.- Ingresar 6 llamadas asociadas al usuario Laura.\
+INSERT INTO calls (phone, date, user_id) VALUES(11223344, \'9102032018\'92, 3);\
+INSERT INTO calls (phone, date, user_id) VALUES(11223355, \'9102032018\'92, 3);\
+INSERT INTO calls (phone, date, user_id) VALUES(11223366, \'9103032018\'92, 3);\
+INSERT INTO calls (phone, date, user_id) VALUES(11223377, \'9103032018\'92, 3);\
+INSERT INTO calls (phone, date, user_id) VALUES(11223388, \'9104032018\'92, 3);\
+INSERT INTO calls (phone, date, user_id) VALUES(11223399, \'9104032018\'92, 3);\
+\
+10.- Ingresar 4 llamadas asociadas al usuario Carlos.\
+INSERT INTO calls (phone, date, user_id) VALUES(11223344, \'9102022018\'92, 1);\
+INSERT INTO calls (phone, date, user_id) VALUES(11223355, \'9102022018\'92, 1);\
+INSERT INTO calls (phone, date, user_id) VALUES(11223366, \'9103022018\'92, 1);\
+INSERT INTO calls (phone, date, user_id) VALUES(11223377, \'9103022018\'92, 1);\
+\
+11.- Crear un nuevo usuario\
+INSERT INTO users (fist_name, email, last_name) VALUES(\'91Sandra\'92, \'91sandra@gmail.com\'92, \'91Salgado\'92);\
+\
+12.- Seleccionar la cantidad de llamados de cada uno de los usuarios (nombre de usuario y cantidad de llamadas)\
+\pard\pardeftab720\sl300\partightenfactor0
+
+\fs26 \cf3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec3 SELECT users.id, users.fist_name, count(*) FROM users, calls WHERE users.id = calls.user_id GROUP BY users.id;\
+\
+13.- Seleccionar los llamados del usuario llamado Carlos ordenados por fecha en orden descendente\
+SELECT * FROM calls WHERE user_id = 1 ORDER BY date DESC;\
+\
+Agregar a la base una tabla de auditor\'eda que registre el motivo del borrado de una llamada y el usuario que lo efectu\'f3.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+CREATE TABLE audit(id SERIAL PRIMARY KEY, calls_id INTEGER, phone INTEGER, date VARCHAR,  user_id INTEGER, reason VARCHAR(100), id_user_delete INTEGER REFERENCES users(id));\
+\
+\
+CREATE TABLE calls(id SERIAL PRIMARY KEY, phone INTEGER, date VARCHAR,  user_id INTEGER REFERENCES users(id));
+\fs26 \cf3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec3 \
+\pard\pardeftab720\sl300\partightenfactor0
+\cf3 \
+
+\fs24 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1 \cf2 \
+}
